@@ -1,21 +1,22 @@
 ---
-output:
-  pdf_document: default
-  html_document: default
+title: "Advertising and Sales"
+output: github_document
 ---
-# Advertising and Sales 
 ```{r eval=TRUE, echo=FALSE}
 adsales <- read.csv("AdSales.csv")
 ```
+
 ```{r eval=TRUE, echo=FALSE,message=FALSE,warning=FALSE}
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
 ```
-To begin, we look at the summary of our dataset. Here we can see the minimum, maximum, and mean values being spent, in thousands of dollars, on each of the advertisement strategies. TV has the most spending, by far exceeding that of the other two methods. The sales column is in thousands of units, and ranges from 1.6k to 27k units. 
+
+The Advertisement and Sales dataset includes 200  entries that show how different advertising methods, including TV, radio, and newspaper, impact sales. Each entry contains details about the amount of spending on these media channels, in thousands of dollars, and their corresponding sales figures (in thousands of units), giving a chance to dive into how effective these advertising strategies really are in boosting sales. To begin, we look at the summary of our dataset. Here we can see the minimum, maximum, and mean values being spent, in thousands of dollars, on each of the advertisement strategies. TV has the most spending, by far exceeding that of the other two methods. The sales column is in thousands of units, and ranges from 1.6k to 27k units. 
 ```{r eval=TRUE, echo=TRUE}
 summary(adsales)
 ```
+
 I decided to create a facetted scatter plot with the three streams of advertisements to analyse the relationship between rising spending on the advertising method and it's impact on the amount of sales. As can be seen in the figure below, sales increased the most with TV's where we can see a sharp positive correlation, with radio being less influential, and newspaper being the least influential on sales. As expected, all three advertising methods create more sales when more money is spent to push them, however TV is by clearly the most effective. 
 ```{r eval=TRUE, echo=TRUE}
 library(tidyr)
@@ -33,6 +34,7 @@ ggplot(ads_long, aes(x = Spend, y = Sales)) +
   theme_minimal() +
   facet_wrap(~ Ad_Medium, scales = "free_x")
 ```
+
 To analyze the impact of the advertising spending, I built a linear regression model using TV, Radio, and Newspaper ad spend as predictors of Sales. The results show that TV and Radio ads have a statistically significant positive impact on sales, with Radio being the most effective ($1000 spent on Radio increases sales by 0.185 units, compared to 0.0458 units for TV). In contrast, Newspaper advertising had no significant effect. The model explains 89.5% of the variance in sales (R-squared = 0.8951), highlighting that TV and Radio are the most valuable channels for driving sales, while Newspaper spending is less effective.
 ```{r eval=TRUE, message=FALSE,warning=FALSE,echo=FALSE}
 # Load necessary library
@@ -86,6 +88,7 @@ ggplot(roi_long, aes(x = Ad_Medium, y = Mean_ROI, fill = Ad_Medium)) +
   labs(title = "Predicted ROI by Ad Medium", x = "Ad Medium", y = "ROI (%)") +
   theme_minimal()
 ```
+
 Based on our analysis, I recommend that the business prioritize investment in radio advertising, as it provides the highest return on investment (ROI) at around 120% while also significantly contributing to sales. TV advertising, although yielding a lower ROI (~10%), has the strongest direct impact on sales based on the linear regression results, so maintaining a solid but controlled presence in TV ads is essential for driving overall sales. On the other hand, newspaper advertising shows minimal influence on sales and has a relatively lower ROI, so reducing or reallocating the budget from newspapers to other channels would be more cost-effective.
 
 The dataset could benefit from additional information on product categories or target audience preferences. Understanding how different demographics respond to each ad channel, along with cost structure details for each product, could further refine the strategy and help optimize the marketing mix for maximum effectiveness.
